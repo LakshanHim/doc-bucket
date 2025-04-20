@@ -2,7 +2,7 @@ spring:
   application:
     name:
   datasource:
-    url: jdbc:mysql://localhost:3306/DocBucket_applied?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/skill_development?createDatabaseIfNotExist=true
     username: root
     password: acpt
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -11,5 +11,5 @@ spring:
     hibernate:
       ddl-auto: update
 server:
-  port: 8081
+  port: 8080
 
