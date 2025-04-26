@@ -1,9 +1,13 @@
 package lk.shan.firstmy.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lk.shan.firstmy.utils.UserRoles;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Data
@@ -26,4 +30,17 @@ public class User {
     private UserRoles role;
     private String imgPathProfile;
     private String imgPathCover;
+    private String registerDate;
+
+//    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE ,orphanRemoval = true)
+    private List<JobDetails> jobs;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE,orphanRemoval = true)
+    private List<Course> courses;
+
+    @PrePersist
+    public void prePersist(){
+        this.registerDate = LocalDate.now().toString();
+    }
 }

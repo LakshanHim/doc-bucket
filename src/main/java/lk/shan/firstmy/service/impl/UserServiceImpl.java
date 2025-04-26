@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -182,7 +183,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public byte[] getImageCover(String username) throws IOException {
         User user = userRepo.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found" + username));
-        String imgPathProfile = user.getImgPathProfile();
+        String imgPathProfile = user.getImgPathCover();
         String substring = imgPathProfile.substring(imgPathProfile.lastIndexOf("/") + 1);
         Path path = Paths.get("upload/", substring);
         if(!Files.exists(path)) {
@@ -215,6 +216,21 @@ public class UserServiceImpl implements UserService {
             return VarList.RSP_SUCCESS;
         }
         return VarList.RSP_ERROR;
+    }
+
+    @Override
+    public UserDto getUserBYId(String userId) {
+        return userRepo.findById(userId)
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public List<UserDto> getAllOrderByUsers() {
+        List<User> users = userRepo.findAllDetails();
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override

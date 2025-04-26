@@ -30,6 +30,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private ResponseDto responseDto;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody UserDto userDto) {
@@ -56,6 +58,15 @@ public class UserController {
         try{
             UserDto user = userService.getUser(username);
             return new ResponseEntity<>(user,HttpStatus.OK);
+        }catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/getUserId/{userId}")
+    public ResponseEntity<UserDto> getUserId(@PathVariable String userId){
+        try{
+            UserDto userBYId = userService.getUserBYId(userId);
+            return ResponseEntity.ok(userBYId);
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -209,7 +220,7 @@ public class UserController {
 
         byte[] img;
         try{
-            img = userService.getImageProfile(username);
+            img = userService.getImageCover(username);
         }catch (FileNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (IOException e){
@@ -231,5 +242,10 @@ public class UserController {
     public String updateImageCover(@PathVariable String username, @RequestParam("file") MultipartFile file) throws IOException {
         String up = userService.updateImageCover(username, file);
         return up;
+    }
+
+    @GetMapping("/getAllUsersOrderBy")
+    public List<UserDto> getAllUsersOrderBy(){
+        return userService.getAllOrderByUsers();
     }
 }

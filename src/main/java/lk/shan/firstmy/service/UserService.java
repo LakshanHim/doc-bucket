@@ -26,4 +26,8 @@ public interface UserService extends UserDetailsService {
     String deleteImageCover(String username);
     String updateImageCover(String username, MultipartFile file) throws IOException;
 
+    UserDto getUserBYId(String userId);
+    List<UserDto> getAllOrderByUsers();
+
+
 }

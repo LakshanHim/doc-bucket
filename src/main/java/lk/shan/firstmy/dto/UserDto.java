@@ -17,4 +17,5 @@ public class UserDto {
     private String imgPathProfile;
     private String imgPathCover;
     private UserRoles role;
+    private String registerDate;
 }
