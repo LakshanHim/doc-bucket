@@ -197,6 +197,15 @@ public class CourseController {
         return s;
     }
 
+    @GetMapping("/getById/{courseId}")
+    public ResponseEntity<ResponseDto> getById(@PathVariable int courseId) {
+        CourseDto course = courseService.getCourse(courseId);
+        responseDto.setCode (VarList.RSP_SUCCESS);
+        responseDto.setMessage("Success to get course ..");
+        responseDto.setContent (course);
+        return new ResponseEntity<> (responseDto, HttpStatus.ACCEPTED);
+    }
+
 
 
 }
